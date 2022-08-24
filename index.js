@@ -89,6 +89,7 @@ const clearWSData = ws => {
   if (index > -1) {
     roomMap[room].splice(index, 1)
     streams.splice(index, 1)
+    console.log(`send new list on clear: ${streams.join(',')}.`)
     roomMap[room].forEach(l => {
       l.send(JSON.stringify({
         room,
@@ -125,7 +126,7 @@ wss.on('connection', (ws, req) => {
     console.log('Received: ' + JSON.stringify(json, null, 2))
   })
   ws.on('close', () => {
-    console.log('websocket connection close')
+    console.log(`websocket connection close: room(${ws.room}), name(${ws.streamName}).`)
     clearWSData(ws)
   })
 })
